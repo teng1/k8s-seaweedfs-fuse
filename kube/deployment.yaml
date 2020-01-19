@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: seaweedfs
+  name: seaweedfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seaweedfs
+  template:
+    metadata:
+      labels:
+        app: seaweedfs
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - image: teng2/seaweedfs:0.2.0
+        name: seaweedfs
+        command: [ "/seaweedfs/start.sh"]
+        securityContext:
+          privileged: true 
+          capabilities: 
+            add:
+              - SYS_ADMIN
+        resources: 
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        ports:
+          - containerPort: 8888
+            name: filerserver

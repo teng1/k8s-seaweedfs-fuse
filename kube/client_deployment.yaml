@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: seaweedfs-client
+  name: seaweedfs-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: seaweedfs-client
+  template:
+    metadata:
+      labels:
+        app: seaweedfs-client
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - image: teng2/seaweedfs:0.2.0
+        name: seaweedfs-client
+        # ghostunel was the namespace 
+        command: [ "/seaweedfs/weed", "mount", "-filer=10.96.81.63:8888", "-dir=/seaweedfs/mydir", "-filer.path=/data/store-01"]
+        securityContext:
+          privileged: true 
+          capabilities: 
+            add:
+              - SYS_ADMIN
+        resources: 
+          limits:
+            memory: "512Mi"
+            cpu: "256m"
+            
