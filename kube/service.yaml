@@ -9,6 +9,28 @@ spec:
     - protocol: TCP
       port: 8888
       targetPort: 8888
-      name: seaweedfs
+      name: filer
+    - protocol: TCP
+      port: 18888
+      targetPort: 18888
+      name: filer-gprc
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: volume
+    - protocol: TCP
+      port: 18080
+      targetPort: 18080
+      name: volume-gprc
+    - protocol: TCP
+      port: 9333
+      targetPort: 9333
+      name: master
+    - protocol: TCP
+      port: 19333
+      targetPort: 19333
+      name: master-gprc
+    
+    
   selector:
     app: seaweedfs
